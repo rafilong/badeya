@@ -1,21 +1,28 @@
 from strategy.strategy import *
 import random
 
-walk = []
-idx = 0
-turns_to_move = -1
-
 """ Moves to the closest monster """
 class MoveWalks(MoveStrategy):
 
+    def score(travel_info):
+        stats = travel_info.stats
+        return stat
+
     def select_move(self):
-        global walk, idx
-        if not self.is_moving():
-            idx += 1
-            if idx < len(walk):
-                return walk[idx]
-            
-        if idx >= len(walk):
+        self.walk = []
+        self.idx = 0
+
+        if self.just_moved():
+            ttk = 0
+            if self.game.has_monster(self.me.location):
+                ttk = get_time_to_kill(self.game, self.me, self.game.get_monster(self.me.location))
+            self.game.log(str(ttk))
+            if ttk <= 7:
+                self.idx += 1
+                if self.idx < len(self.walk):
+                    return self.walk[self.idx]
+
+        if self.idx >= len(self.walk):
             walks = generate_walks(self.game, self.me.location, 5)
             best_stats = None
             best_stats_walk = walks[0]
@@ -29,8 +36,8 @@ class MoveWalks(MoveStrategy):
                     best_stats = ts
                     best_stats_st = st
                     best_stats_walk = walk
-            walk = best_stats_walk
-            idx = 0
-            return walk[idx]
+            self.walk = best_stats_walk
+            self.idx = 0
+            return self.walk[self.idx]
 
         return self.me.destination
