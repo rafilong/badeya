@@ -2,6 +2,14 @@ import math
 
 STANCES = ["Rock", "Paper", "Scissors"]
 
+def stance_num(=stance):
+    if stance == "Rock":
+        return 0
+    if stance == "Scissors":
+        return 1
+    if stance == "Paper":
+        return 2
+
 """ Stats information for finding best walks """
 
 class Stats:
