@@ -38,15 +38,6 @@ class MoveStrategy(Strategy):
 class StanceStrategy(Strategy):
     STANCES = ["Rock", "Paper", "Scissors"]
 
-    def get_stance(self):
-        self.update()
-        return self.select_stance()
-
-    @abstractmethod
-    def select_stance(self):
-        pass
-
-
     def get_winning_stance(stance):
         if stance == "Rock":
             return "Paper"
@@ -54,3 +45,11 @@ class StanceStrategy(Strategy):
             return "Scissors"
         elif stance == "Scissors":
             return "Rock"
+
+    def get_stance(self):
+        self.update()
+        return self.select_stance()
+
+    @abstractmethod
+    def select_stance(self):
+        pass
