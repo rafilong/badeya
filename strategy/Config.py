@@ -1,5 +1,5 @@
-from strategy.MoveBasic import MoveBasic
-from strategy.StanceBasic import StanceBasic
+from strategy.move_basic import MoveBasic
+from strategy.stance_basic import StanceBasic
 
 STRATEGY = {
     "move": MoveBasic,

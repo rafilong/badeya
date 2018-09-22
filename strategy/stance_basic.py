@@ -1,4 +1,4 @@
-from .Strategy import StanceStrategy
+from strategy.strategy import StanceStrategy
 import random
 
 class StanceBasic(StanceStrategy):

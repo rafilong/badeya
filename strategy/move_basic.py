@@ -1,4 +1,4 @@
-from .Strategy import MoveStrategy
+from strategy.strategy import MoveStrategy
 import random
 
 class MoveBasic(MoveStrategy):
