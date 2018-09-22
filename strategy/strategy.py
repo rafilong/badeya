@@ -14,7 +14,7 @@ class Strategy(ABC):
         pass
 
     def will_move(self):
-        if (self.me.movement_counter + 1 == self.me.speed):
+        if (self.me.movement_counter - 1 == self.me.speed):
             return True
         else:
             return False
