@@ -45,6 +45,7 @@ class MockEnemy:
         self.stance = stance
         self.death_effects = death_effects
         self.dead = False
+        self.respawn_counter = 0
 
 game = MockGame()
 ttl = get_travel_stats(game, 4)
