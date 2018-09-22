@@ -25,7 +25,7 @@ def generate_walks(game, current_location, n):
     if n == 0:
         return [[]]
     to_return = []
-    adj = game.get_adjacent_nodes(current_location)
+    adj = game.get_adjacent_nodes(current_location) + [current_location]
     for node in adj:
         subres = generate_walks(game, node, n - 1)
         for result in subres:
@@ -81,7 +81,7 @@ def ttl_helper(game, stats, resp_status, current_location, path, idx, time_in_fu
             # If we improve speed stat, and we killed monster fast enough, we
             # get to leave earlier
             time_for_this_loc = max(time_to_kill, 7 - stats.speed)
-            resp_status[current_location] = 7 - monster.speed + time_in_future
+            resp_status[current_location] = 7 - monster.respawn_rate + time_in_future
 
     next_location = path[idx]
 
