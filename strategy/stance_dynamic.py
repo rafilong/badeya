@@ -78,7 +78,7 @@ class StanceDynamic(StanceStrategy):
             self.update_response()
             self.duels += 1
 
-        if can_attack():
+        if self.can_attack():
             return self.best_stance()
         else:
             if self.game.has_monster(self.next_location()):
