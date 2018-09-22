@@ -4,8 +4,8 @@ import random
 class MoveRandom(MoveStrategy):
 
     def select_move(self):
-        if (self.game.get_self().location == self.game.get_self().destination):
-            paths = self.game.get_adjacent_nodes(self.game.get_self().location)
+        if (self.me.location == self.me.destination):
+            paths = self.game.get_adjacent_nodes(self.me.location)
             return paths[random.randint(0, len(paths)-1)]
         else:
-            return self.game.get_self().destination
+            return self.me.destination
