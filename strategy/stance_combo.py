@@ -65,7 +65,10 @@ class StanceCombo(StanceStrategy):
         self.game.log(str(scores))
         self.game.log(str(var))
 
-        return STANCES[scores.index(max(scores))]
+        if var < self.THRESHOLD:
+            return self.memo_stance()
+        else:
+            return STANCES[scores.index(max(scores))]
 
     def best_stance(self):
         scores = self.score_stances()
