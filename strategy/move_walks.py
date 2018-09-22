@@ -20,9 +20,6 @@ class MoveWalks(MoveStrategy):
 
             walks = sorted(walks, key=self.score)
             self.walk = walks[-1]
-            self.game.log(str(self.walk))
-            self.game.log(str(self.score(self.walk)))
-            self.game.log(str(get_travel_stats(self.game, self.me.location, self.walk + [0], True)))
             self.idx = 0
 
         if has_alive_monster(self.game, self.me.location):
@@ -40,9 +37,6 @@ class MoveWalks(MoveStrategy):
 
             walks = sorted(walks, key=self.score)
             self.walk = walks[-1]
-            self.game.log(str(self.walk))
-            self.game.log(str(self.score(self.walk)))
-            self.game.log(str(get_travel_stats(self.game, self.me.location, self.walk + [0], True)))
             self.idx = 0
 
         return self.walk[self.idx]
