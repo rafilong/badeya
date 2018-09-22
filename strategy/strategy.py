@@ -31,8 +31,16 @@ class MoveStrategy(Strategy):
         return 0
 
     """Damage the player will take moving along the given path."""
+    # Hassan
     def path_damage(self, path):
-        return 0
+        damage_taken = 0;
+        for i in range(len(path)):
+            monster = self.game.get_monster(node[i])
+
+            # check if enemy respawns by the time i get there
+            if monster.respawn_counter <  (7 - self.me.speed) * (i+1):
+                damage_taken += monster.attack * (monster.health // self.me.attack)
+        return damage_taken
 
     """Whether the current node has a living monster."""
     def has_alive_monster(self):
