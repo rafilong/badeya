@@ -17,6 +17,18 @@ class Stats:
     def after_kill(self, monster):
         return Stats(self.speed + monster.death_effects.speed, self.rock + monster.death_effects.rock, self.paper + monster.death_effects.paper, self.scissors + monster.death_effects.scissors, self.health + monster.death_effects.health)
 
+def generate_walks(game, current_location, n):
+    if n == 0:
+        return [[]]
+    to_return = []
+    adj = game.get_adjacent_nodes(current_location)
+    for node in adj:
+        subres = generate_walks(game, node, n - 1)
+        for result in subres:
+            to_return.append([node] + result)
+    return to_return
+
+
 def get_current_stats(game, player):
     return Stats(player.speed, player.rock, player.paper, player.scissors, player.health)
 
@@ -28,21 +40,12 @@ class TravelInfo:
     def __str__(self):
         return 'Time: ' + str(self.duration) + '\nSpeed: ' + str(self.stats.speed) + '\nRock: ' + str(self.stats.rock) + '\nPaper: ' + str(self.stats.paper) + '\nScissors: ' + str(self.stats.scissors) + '\nHP: ' + str(self.stats.health)
 
-# Gets the player's estimated stats after travelling to the target location
-# TODO: Add different priorities. Currently just follows the shortest path
-def get_travel_stats(game, target_location):
+# Gets the player's estimated stats after following a given path
+def get_travel_stats(game, current_location, path):
     me = game.get_self()
     stats = get_current_stats(game, me)
-    paths = game.shortest_paths(me.location, target_location)
-
-    min_time = -1
-    min_time_stats = None
-    for path in paths:
-        (time_using_path, end_stats) = ttl_helper(game, stats, me.location, path, 0, 0)
-        if min_time == -1 or time_using_path < min_time:
-            min_time = time_using_path
-            min_time_stats = end_stats
-    return TravelInfo(min_time, min_time_stats)
+    (t, st) = ttl_helper(game, stats, current_location, path, 0, 0)
+    return TravelInfo(t, st)
 
 # See above
 def ttl_helper(game, stats, current_location, path, idx, time_in_future):
