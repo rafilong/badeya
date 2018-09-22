@@ -1,4 +1,4 @@
-from utils import *
+from strategy.utils import *
 import json
 
 class MockDeathEffects:
