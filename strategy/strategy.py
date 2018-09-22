@@ -29,11 +29,34 @@ class Strategy(ABC):
 class MoveStrategy(Strategy):
     """How much damage the player will take while killing a monster."""
     def damage_to_kill(self, monster):
-        return 0
+        win_stance_str = get_winning_stance(monster.stance)
+        if win_stance_str == "Rock":
+            win_stance = self.me.paper
+        elif win_stance_str == "Paper":
+            win_stance = self.me.scissors
+        else:
+            win_stance = self.me.rock
+
+        damage_taken += monster.attack * (monster.health // win_stance)
+
+        return damage_taken
 
     """Damage the player will take moving along the given path."""
+    # Hassan
     def path_damage(self, path):
-        return 0
+        damage_taken = 0;
+        for i in range(len(path)):
+            monster = self.game.get_monster(node[i])
+
+            # check if enemy respawns by the time i get there
+            if monster.respawn_counter <  (7 - self.me.speed) * (i+1):
+                damage_taken += damage_to_kill(monster)
+                
+        return damage_taken
+
+    """ Whether or not we can steal a nearby kill"""
+    def can_steal(self):
+        pass
 
     """Whether the current node has a living monster."""
     def has_alive_monster(self):
