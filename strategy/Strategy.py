@@ -4,6 +4,11 @@ class Strategy(ABC):
 
     def __init__(self, game):
         self.game = game
+        self.me = game.get_self()
+        self.op = game.get_opponent()
+
+    def update(self):
+        pass
 
 class MoveStrategy(Strategy):
 
