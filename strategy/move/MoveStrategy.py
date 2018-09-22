@@ -1,6 +1,6 @@
 import Strategy
 
-class StanceStrategy(Strategy):
+class MoveStrategy(Strategy):
 
     @abstractmethod
     def whichMove(self):
