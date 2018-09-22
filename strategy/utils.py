@@ -73,7 +73,7 @@ def ttl_helper(game, stats, current_location, path, idx, time_in_future, must_ki
 
     next_location = path[idx]
 
-    (time, end_stats) = ttl_helper(game, stats, next_location, path, idx + 1, time_in_future + time_for_this_loc, must_kill, prnt)
+    (time, end_stats) = ttl_helper(game, stats, next_location, path, idx + 1, time_in_future + time_for_this_loc, must_kill)
     return (time_for_this_loc + time, end_stats)
 
 
