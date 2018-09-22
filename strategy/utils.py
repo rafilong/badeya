@@ -1,5 +1,7 @@
 import math
 
+STANCES = ["Rock", "Paper", "Scissors"]
+
 class Stats:
     def __init__(self, speed, rock, paper, scissors, health):
         self.speed = speed
@@ -84,6 +86,12 @@ def ttl_helper(game, stats, resp_status, current_location, path, idx, time_in_fu
     (time, end_stats) = ttl_helper(game, stats, resp_status, next_location, path, idx + 1, time_in_future + time_for_this_loc, must_kill)
     return (time_for_this_loc + time, end_stats)
 
+
+def has_alive_monster(game, location):
+    if game.has_monster(location):
+        return not game.get_monster(location).dead
+    else:
+        return False
 
 # Guesses whether a monster will be alive, a given number of turns from now
 def will_monster_be_alive(game, resp_status, location, time_from_now):

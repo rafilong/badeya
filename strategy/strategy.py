@@ -41,7 +41,6 @@ class MoveStrategy(Strategy):
         pass
 
 class StanceStrategy(Strategy):
-    STANCES = ["Rock", "Paper", "Scissors"]
 
     def get_stance(self):
         self.update()

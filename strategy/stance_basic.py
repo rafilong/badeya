@@ -5,9 +5,9 @@ import random
 class StanceBasic(StanceStrategy):
 
     def select_stance(self):
-        if self.op.location == self.next_location:
-            return StanceStrategy.get_winning_stance(self.op.stance)
+        if self.opp.location == self.next_location:
+            return get_winning_stance(self.opp.stance)
         elif self.game.has_monster(self.next_location()):
-            return StanceStrategy.get_winning_stance(self.game.get_monster(self.next_location()).stance)
+            return get_winning_stance(self.game.get_monster(self.next_location()).stance)
         else:
-            return StanceStrategy.STANCES[random.randint(0, 2)]
+            return STANCES[random.randint(0, 2)]

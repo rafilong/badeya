@@ -1,6 +1,6 @@
 from strategy import *
 
 STRATEGY = {
-    "move": move_sudoku.MoveSudoku,
+    "move": move_basic.MoveBasic,
     "stance": stance_basic.StanceBasic
 }
