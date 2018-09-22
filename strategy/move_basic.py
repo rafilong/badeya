@@ -1,4 +1,4 @@
-from strategy.strategy import MoveStrategy
+from strategy.strategy import *
 import random
 
 """ Moves to the closest monster """
