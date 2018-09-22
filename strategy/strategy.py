@@ -12,6 +12,8 @@ class Strategy(ABC):
         self.opp = game.get_opponent()
 
     def update(self):
+        self.last_time = self.me.movement_counter
+        self.last_dest = self.me.destination
         pass
 
     """ Movement information for player """
@@ -31,14 +33,19 @@ class Strategy(ABC):
 
     # Whether the player is currently moving to a new location
     def is_moving(self):
-        return self.me.destination != self.me.location
+        return self.me.destination != self.me.location\
+
+    # Whether the play just moved last turn
+    def just_moved(self):
+        return (self.last_dest == self.me.location) and (self.last_time < self.me.movement_counter)
 
 """ Defines an interface for movement strategies """
 class MoveStrategy(Strategy):
 
     def get_move(self):
+        move = self.select_move()
         self.update()
-        return self.select_move()
+        return move
 
     @abstractmethod
     def select_move(self):
@@ -48,8 +55,9 @@ class MoveStrategy(Strategy):
 class StanceStrategy(Strategy):
 
     def get_stance(self):
+        stance = self.select_stance()
         self.update()
-        return self.select_stance()
+        return stance
 
     @abstractmethod
     def select_stance(self):
