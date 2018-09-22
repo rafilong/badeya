@@ -10,6 +10,7 @@ class Strategy(ABC):
         self.game = game
         self.me = game.get_self()
         self.opp = game.get_opponent()
+        self.me.name = "Good Bot"
 
     def update(self):
         pass

@@ -9,39 +9,42 @@ class StanceDuel(StanceStrategy):
     first_duel = True
 
     def select_stance(self):
+        stances = self.me.stance + self.opp.stance
 
-        stances = self.me.stance + self.op.stance
-
+        if self.opp.stance == "Invalid Stance":
+            return STANCES[random.randint(0, 2)]
         # if we have already seen it
         if stances in self.stance_dic:
-            return self.stance_dic[stances]
+            # contradiction in memory
+            if self.stance_dic[stances] != get_winning_stance(self.opp.stance):
+                self.second_mode()
+            else:
+                self.last_enemy_stance = self.opp.stance
+                return self.stance_dic[stances]
 
-        else:
         # add this to our memory
-        if not first_duel:
+        if not self.first_duel:
             key = self.me.stance + self.last_enemy_stance
             if key not in self.stance_dic:
-                stance_dic[] = get_winning_stance(self.op.stance)
-                return StanceStrategy.STANCES[random.randint(0, 2)]
+                self.stance_dic[key] = get_winning_stance(self.opp.stance)
+                self.last_enemy_stance = self.opp.stance
+                return STANCES[random.randint(0, 2)]
 
-            # contradiction in memory
-            elif self.stance_dic[k] != get_winning_stance(self.op.stance):
-                self.second_mode()
-
-            last_enemy_stance = self.op.stance
         else:
-            first_duel = False
-
+            self.first_duel = False
+                    
+        self.last_enemy_stance = self.opp.stance
+        return STANCES[random.randint(0, 2)]
     def second_mode(self):
 
         # play something else every round.
-        other_stances = StanceStrategy.STANCES
+        other_stances = STANCES
         other_stances.remove(self.me.stance)
 
-        if self.me.other_stances[0] > self.me.other_stances[1]:
-            return self.me.other_stances[0]
-        else
-            return self.me.other_stances[1]
+        if other_stances[0] > other_stances[1]:
+            return other_stances[0]
+        else:
+            return other_stances[1]
 
 
 
