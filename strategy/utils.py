@@ -81,7 +81,7 @@ def ttl_helper(game, stats, resp_status, current_location, path, idx, time_in_fu
             # If we improve speed stat, and we killed monster fast enough, we
             # get to leave earlier
             time_for_this_loc = max(time_to_kill, 7 - stats.speed)
-            resp_status[current_location] = 7 - monster.respawn_rate + time_in_future
+            resp_status[current_location] = monster.respawn_rate + time_in_future
 
     next_location = path[idx]
 
