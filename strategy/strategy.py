@@ -29,15 +29,9 @@ class Strategy(ABC):
 class MoveStrategy(Strategy):
     """How much damage the player will take while killing a monster."""
     def damage_to_kill(self, monster):
-        win_stance_str = get_winning_stance(monster.stance)
-        if win_stance_str == "Rock":
-            win_stance = self.me.paper
-        elif win_stance_str == "Paper":
-            win_stance = self.me.scissors
-        else:
-            win_stance = self.me.rock
-
-        damage_taken += monster.attack * (monster.health // win_stance)
+        damage_taken = 0
+        turns_to_kill = self.turns_to_kill(monster, self.me)
+        damage_taken += monster.attack * turns_to_kill
 
         return damage_taken
 
@@ -51,12 +45,29 @@ class MoveStrategy(Strategy):
             # check if enemy respawns by the time i get there
             if monster.respawn_counter <  (7 - self.me.speed) * (i+1):
                 damage_taken += damage_to_kill(monster)
-                
+
         return damage_taken
 
     """ Whether or not we can steal a nearby kill"""
     def can_steal(self):
-        pass
+        if self.game.shortest_paths(self.me.location, self.op.location)[0] == 1:
+            monster = self.game.get_monster(self.op.location)
+
+            if self.turns_to_kill(monster, self.op) > (7 - self.speed):
+                return True
+
+
+    """ How many turns does it take for an entity to kill the given monster"""
+    def turns_to_kill(self, monster, entity):
+        win_stance_str = get_winning_stance(monster.stance)
+        if win_stance_str == "Rock":
+            win_stance = entity.paper
+        elif win_stance_str == "Paper":
+            win_stance = entity.scissors
+        else:
+            win_stance = entity.rock
+
+        if monster.health // win_stance
 
     """Whether the current node has a living monster."""
     def has_alive_monster(self):
