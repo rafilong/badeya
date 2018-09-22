@@ -57,7 +57,7 @@ class MockEnemy:
         self.dead = False
         self.respawn_counter = 0
         self.location = location
-        self.speed = speed
+        self.respawn_rate = speed
 
 j = {}
 with open('./Map.json', 'r') as f:
@@ -89,10 +89,10 @@ best_stats_st = 0
 best_stats_walk = None
 best_spd = None
 best_spd_walk = None
-walks = generate_walks(game, 0, 6)
+walks = generate_walks(game, 0, 1)
 for walk in walks:
 
-    ts = get_travel_stats(game, 0, walk, True)
+    ts = get_travel_stats(game, 0, walk + [0], True)
     if (walk == [10, 9, 8, 14, 19, 23, 24, 23]):
         print('boosted bou')
         print(ts)
