@@ -5,10 +5,12 @@ STANCES = ["Rock", "Paper", "Scissors"]
 def stance_num(=stance):
     if stance == "Rock":
         return 0
-    if stance == "Scissors":
+    elif stance == "Scissors":
         return 1
-    if stance == "Paper":
+    elif stance == "Paper":
         return 2
+    else:
+        return -1
 
 """ Stats information for finding best walks """
 
