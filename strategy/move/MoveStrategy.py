@@ -1,10 +1,6 @@
-from abc import ABC, abstractmethod
+import Strategy
 
-class StanceStrategy(ABC):
-    game = None;
-
-    def __init__(self, game):
-        self.game = game;
+class StanceStrategy(Strategy):
 
     @abstractmethod
     def whichMove(self):
