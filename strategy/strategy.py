@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from strategy.utils import *
 
 class Strategy(ABC):
 
