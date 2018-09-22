@@ -4,7 +4,7 @@ import fileinput
 import json
 
 # your import statements here
-import strategy.config as config
+import config
 
 first_line = True # DO NOT REMOVE
 init = True
