@@ -9,7 +9,7 @@ import random
 first_line = True # DO NOT REMOVE
 
 # global variables or other functions can go here
-stances = ["Rock", "Paper", "Scissors"]
+STANCES = ["Rock", "Paper", "Scissors"]
 
 def get_winning_stance(stance):
     if stance == "Rock":
@@ -51,7 +51,7 @@ for line in fileinput.input():
         chosen_stance = get_winning_stance(game.get_monster(me.location).stance)
     else:
         # otherwise, pick a random stance
-        chosen_stance = stances[random.randint(0, 2)]
+        chosen_stance = STANCES[random.randint(0, 2)]
 
     # submit your decision for the turn (This function should be called exactly once per turn)
     game.submit_decision(destination_node, chosen_stance)
