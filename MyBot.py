@@ -4,9 +4,7 @@ import fileinput
 import json
 
 # your import statements here
-import random
-from strategy.MoveBasic import MoveBasic
-from strategy.StanceBasic import StanceBasic
+import strategy.Config as config
 
 first_line = True # DO NOT REMOVE
 init = True
@@ -22,10 +20,9 @@ for line in fileinput.input():
 # DO NOT CHANGE ABOVE ---------------------------
 
     # code in this block will be executed each turn of the game
-
     if init:
-        move_strategy = MoveBasic(game)
-        stance_strategy = StanceBasic(game)
+        move_strategy = config.STRATEGY['move'](game)
+        stance_strategy = config.STRATEGY['stance'](game)
         init = False
 
     destination = move_strategy.get_move()

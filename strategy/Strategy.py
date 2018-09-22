@@ -2,6 +2,9 @@ from abc import ABC, abstractmethod
 
 class Strategy(ABC):
 
+    def __init__(self):
+        self.game = None
+
     def __init__(self, game):
         self.game = game
         self.me = game.get_self()
