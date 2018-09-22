@@ -26,12 +26,15 @@ class Strategy(ABC):
             return self.me.location
 
 class MoveStrategy(Strategy):
+    """Damage the player will take moving along the given path."""
     def path_damage(self, path):
         return 0
 
+    """Whether the current node has a living monster."""
     def has_alive_monster(self):
         return self.game.has_monster(self.me.location) and not self.game.get_monster(self.me.location).dead
 
+    """Whether the player is in the state of moving."""
     def moving(self):
         return self.me.destination != self.me.location
 
