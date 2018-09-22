@@ -73,7 +73,7 @@ def ttl_helper(game, stats, current_location, path, idx, time_in_future, must_ki
 
     next_location = path[idx]
 
-    (time, end_stats) = ttl_helper(game, stats, next_location, path, idx + 1, time_in_future + time_for_this_loc, must_kill)
+    (time, end_stats) = ttl_helper(game, stats, next_location, path, idx + 1, time_in_future + time_for_this_loc, must_kill, prnt)
     return (time_for_this_loc + time, end_stats)
 
 
@@ -88,9 +88,8 @@ def will_monster_be_alive(game, location, time_from_now):
 
 # Determines the time-to-kill the current monster, assuming winning stance
 def get_time_to_kill(game, stats, monster):
-    me = game.get_self()
     hp = monster.health
-    fighting_stat = get_stat_for_stance(me, get_winning_stance(monster.stance))
+    fighting_stat = get_stat_for_stance(stats, get_winning_stance(monster.stance))
     return math.ceil(hp / fighting_stat)
 
 # Gives the winning stance given another one
@@ -103,10 +102,10 @@ def get_winning_stance(stance):
         return 'Rock'
 
 # Grabs the relevant stat for a stance by name
-def get_stat_for_stance(entity, name):
+def get_stat_for_stance(stats, name):
     if name == 'Rock':
-        return entity.rock
+        return stats.rock
     elif name == 'Paper':
-        return entity.paper
+        return stats.paper
     else:
-        return entity.scissors
+        return stats.scissors

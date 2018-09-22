@@ -81,10 +81,14 @@ best_stats_st = 0
 best_stats_walk = None
 best_spd = None
 best_spd_walk = None
-walks = generate_walks(game, 0, 8)
+walks = generate_walks(game, 0, 6)
 for walk in walks:
 
     ts = get_travel_stats(game, 0, walk, True)
+    if (walk == [10, 9, 8, 14, 19, 23, 24, 23]):
+        print('boosted bou')
+        print(ts)
+        print()
 
     if best_hp is None or ts.stats.health > best_hp.stats.health:
         best_hp = ts
