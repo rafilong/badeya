@@ -11,17 +11,6 @@ from strategy.StanceBasic import StanceBasic
 first_line = True # DO NOT REMOVE
 init = True
 
-# global variables or other functions can go here
-STANCES = ["Rock", "Paper", "Scissors"]
-
-def get_winning_stance(stance):
-    if stance == "Rock":
-        return "Paper"
-    elif stance == "Paper":
-        return "Scissors"
-    elif stance == "Scissors":
-        return "Rock"
-
 # main player script logic
 # DO NOT CHANGE BELOW ----------------------------
 for line in fileinput.input():
