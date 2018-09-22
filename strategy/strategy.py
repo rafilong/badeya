@@ -26,6 +26,8 @@ class Strategy(ABC):
             return self.me.location
 
 class MoveStrategy(Strategy):
+    def path_damage(self, path):
+        return 0
 
     def has_alive_monster(self):
         return self.game.has_monster(self.me.location) and not self.game.get_monster(self.me.location).dead
