@@ -39,8 +39,8 @@ for line in fileinput.input():
         stance_strategy = StanceBasic(game)
         init = False
 
-    destination = move_strategy.whichMove()
-    stance = stance_strategy.whichStance()
+    destination = move_strategy.get_move()
+    stance = stance_strategy.get_stance()
 
     # submit your decision for the turn (This function should be called exactly once per turn)
     game.submit_decision(destination, stance)

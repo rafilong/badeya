@@ -7,13 +7,21 @@ class Strategy(ABC):
 
 class MoveStrategy(Strategy):
 
+    def get_move(self):
+        self.update()
+        return self.select_move()
+
     @abstractmethod
-    def whichMove(self):
+    def select_move(self):
         pass
 
 class StanceStrategy(Strategy):
     STANCES = ["Rock", "Paper", "Scissors"]
 
+    def get_stance(self):
+        self.update()
+        return self.select_stance()
+
     @abstractmethod
-    def whichStance(self):
+    def select_stance(self):
         pass

@@ -3,5 +3,5 @@ import random
 
 class StanceBasic(StanceStrategy):
 
-    def whichStance(self):
+    def select_stance(self):
         return StanceStrategy.STANCES[random.randint(0, 2)]
