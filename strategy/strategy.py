@@ -14,10 +14,16 @@ class Strategy(ABC):
         # Initialize with dummy values
         self.last_time = 100
         self.last_dest = self.me.location
+        self.last_location = self.me.location
+        self.delay = 0
 
     def update(self):
         self.last_time = self.me.movement_counter
         self.last_dest = self.me.destination
+        self.last_location = self.me.location
+        self.delay -= 1
+        if self.me.location == self.me.destination and self.delay == 0:
+            self.delay = 7 - self.me.speed
         pass
 
     """ Movement information for player """
@@ -41,7 +47,10 @@ class Strategy(ABC):
 
     # Whether the play just moved last turn
     def just_moved(self):
-        return (self.last_dest == self.me.location) and (self.last_time < self.me.movement_counter)
+        if self.last_dest == self.last_location:
+            return self.delay == 0
+        else:
+            return (self.last_dest == self.me.location) and (self.last_time < self.me.movement_counter)
 
 """ Defines an interface for movement strategies """
 class MoveStrategy(Strategy):

@@ -3,27 +3,24 @@ import random
 
 """ Moves to the closest monster """
 class MoveWalks(MoveStrategy):
+    walk = []
+    idx = 0
 
     def score(travel_info):
         stats = travel_info.stats
         return stat
 
     def select_move(self):
-        self.walk = []
-        self.idx = 0
-
         if self.just_moved():
-            ttk = 0
-            if self.game.has_monster(self.me.location):
-                ttk = get_time_to_kill(self.game, self.me, self.game.get_monster(self.me.location))
-            self.game.log(str(ttk))
-            if ttk <= 7:
-                self.idx += 1
-                if self.idx < len(self.walk):
-                    return self.walk[self.idx]
+            self.idx += 1;
+
+        if has_alive_monster(self.game, self.me.location):
+            ttk = get_time_to_kill(self.game, self.me, self.game.get_monster(self.me.location))
+            if ttk >= 7 - self.me.speed:
+                return self.me.location
 
         if self.idx >= len(self.walk):
-            walks = generate_walks(self.game, self.me.location, 5)
+            '''walks = generate_walks(self.game, self.me.location, 5)
             best_stats = None
             best_stats_walk = walks[0]
             best_stats_st = 0
@@ -36,8 +33,8 @@ class MoveWalks(MoveStrategy):
                     best_stats = ts
                     best_stats_st = st
                     best_stats_walk = walk
-            self.walk = best_stats_walk
+            self.walk = best_stats_walk'''
+            self.walk = [10, 16, 10, 0]
             self.idx = 0
-            return self.walk[self.idx]
 
-        return self.me.destination
+        return self.walk[self.idx]
