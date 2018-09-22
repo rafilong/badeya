@@ -1,6 +1,6 @@
 from strategy import *
 
 STRATEGY = {
-    "move": move_walks.MoveWalks,
+    "move": move_still.MoveStill,
     "stance": stance_dynamic.StanceDynamic
 }
