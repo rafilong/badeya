@@ -27,6 +27,12 @@ class Strategy(ABC):
 
 class MoveStrategy(Strategy):
 
+    def has_alive_monster(self):
+        return self.game.has_monster(self.me.location) and not self.game.get_monster(self.me.location).dead
+
+    def moving(self):
+        return self.me.destination != self.me.location
+
     def get_move(self):
         self.update()
         return self.select_move()
