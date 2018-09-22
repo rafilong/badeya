@@ -75,26 +75,35 @@ for m in j['Monsters']:
 game = MockGame(nodes, adjacent_nodes, monsters)
 
 best_hp = None
+best_hp_walk = None
 best_stats = None
 best_stats_st = 0
+best_stats_walk = None
 best_spd = None
-walks = generate_walks(game, 0, 4)
+best_spd_walk = None
+walks = generate_walks(game, 0, 8)
 for walk in walks:
 
-    ts = get_travel_stats(game, 0, walk)
+    ts = get_travel_stats(game, 0, walk, True)
 
     if best_hp is None or ts.stats.health > best_hp.stats.health:
         best_hp = ts
+        best_hp_walk = walk
 
     st = ts.stats.rock + ts.stats.paper + ts.stats.scissors
-    if best_stats is None or st > best_stats_st:
+    if ts.stats.health > 0 and (best_stats is None or (st > best_stats_st or (st == best_stats_st and ts.duration < best_stats.duration))):
         best_stats = ts
         best_stats_st = st
-    if best_spd is None or ts.stats.speed > best_spd.stats.speed:
+        best_stats_walk = walk
+    if ts.stats.health > 0 and (best_spd is None or (ts.stats.speed > best_spd.stats.speed or (ts.stats.speed == best_spd.stats.speed and ts.duration < best_stats.duration))):
         best_spd = ts
+        best_spd_walk =walk
 
+print(best_hp_walk)
 print(best_hp)
 print()
+print(best_stats_walk)
 print(best_stats)
 print()
+print(best_spd_walk)
 print(best_spd)

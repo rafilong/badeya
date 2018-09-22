@@ -41,14 +41,14 @@ class TravelInfo:
         return 'Time: ' + str(self.duration) + '\nSpeed: ' + str(self.stats.speed) + '\nRock: ' + str(self.stats.rock) + '\nPaper: ' + str(self.stats.paper) + '\nScissors: ' + str(self.stats.scissors) + '\nHP: ' + str(self.stats.health)
 
 # Gets the player's estimated stats after following a given path
-def get_travel_stats(game, current_location, path):
+def get_travel_stats(game, current_location, path, must_kill = False):
     me = game.get_self()
     stats = get_current_stats(game, me)
-    (t, st) = ttl_helper(game, stats, current_location, path, 0, 0)
+    (t, st) = ttl_helper(game, stats, current_location, path, 0, 0, must_kill)
     return TravelInfo(t, st)
 
 # See above
-def ttl_helper(game, stats, current_location, path, idx, time_in_future):
+def ttl_helper(game, stats, current_location, path, idx, time_in_future, must_kill):
     if idx == len(path):
         return (0, stats)
 
@@ -59,6 +59,8 @@ def ttl_helper(game, stats, current_location, path, idx, time_in_future):
     if will_monster_be_alive(game, current_location, time_in_future):
         monster = game.get_monster(current_location)
         time_to_kill = get_time_to_kill(game, stats, monster)
+        if must_kill:
+            time_for_this_loc = max(time_for_this_loc, time_to_kill)
         # Take damage
         stats = stats.with_damage(time_to_kill * monster.attack)
         # If we kill the monster
@@ -71,7 +73,7 @@ def ttl_helper(game, stats, current_location, path, idx, time_in_future):
 
     next_location = path[idx]
 
-    (time, end_stats) = ttl_helper(game, stats, next_location, path, idx + 1, time_in_future + time_for_this_loc)
+    (time, end_stats) = ttl_helper(game, stats, next_location, path, idx + 1, time_in_future + time_for_this_loc, must_kill)
     return (time_for_this_loc + time, end_stats)
 
 
