@@ -8,8 +8,13 @@ def response_type(opp, me):
     return (stance_num(opp) - stance_num(me)) % 3
 
 """ Returns a stance to counter the player """
-class StanceDynamic(StanceStrategy):
+class StanceCombo(StanceStrategy):
     DECAY = 0.8
+    THRESHOLD = 0
+
+    def update_data(self):
+        self.update_response()
+        self.update_memory()
 
     # 0 is for same as prev, 1 is for counters prev, 2 is for prev counters
     response = [.001, .001, .001]
@@ -20,6 +25,17 @@ class StanceDynamic(StanceStrategy):
         self.response = [x * self.DECAY for x in self.response]
         self.response[type] += 1
         self.duels *= self.DECAY
+
+    memory = {}
+
+    def update_memory(self):
+        if self.get_turn_num() > 1:
+            key = self.me_last_stance + self.opp_last_stance
+            self.memory[key] = get_winning_stance(self.opp.stance)
+
+        self.opp_last_stance = self.opp.stance
+        self.me_last_stance = self.me.stance
+
 
     def probs_stance(self):
         probs = [x / self.duels for x in self.response]
@@ -42,32 +58,25 @@ class StanceDynamic(StanceStrategy):
 
         return scores
 
+    def combo_stance(self):
+        scores = self.score_stances()
+        var = sum((max(scores) - x) ** 2 for x in scores) / len(scores)
+
+        self.game.log(str(scores))
+        self.game.log(str(var))
+
+        return STANCES[scores.index(max(scores))]
+
     def best_stance(self):
         scores = self.score_stances()
         return STANCES[scores.index(max(scores))]
 
-    """ Doesn't work lul
-    def weighted_stance(self):
-        scores = self.score_stances()
-        self.game.log("raw " + str(scores))
-
-        scores = [x * x * x for x in scores]
-        scores_sum = math.fabs(sum(scores))
-        if scores_sum != 0:
-            scores = [x / scores_sum for x in scores]
-
-            self.game.log("wgt " + str(scores))
-
-            rand = random.random()
-            for i in range(len(scores)):
-                rand -= scores[i]
-                if rand <= 0:
-                    return STANCES[i]
-
-            self.game.log("fuck")
-
-        return STANCES[scores.index(max(scores))]
-    """
+    def memo_stance(self):
+        current_key = self.me.stance + self.opp.stance
+        if current_key in self.memory:
+            return self.memory[current_key]
+        else:
+            return STANCES[random.randint(0, 2)]
 
     # Whether the opponent can be hit next turn
     def can_attack(self):
@@ -79,7 +88,7 @@ class StanceDynamic(StanceStrategy):
             self.duels += 1
 
         if self.can_attack():
-            return self.best_stance()
+            return self.combo_stance()
         else:
             if self.game.has_monster(self.next_location()):
                 return get_winning_stance(self.game.get_monster(self.next_location()).stance)

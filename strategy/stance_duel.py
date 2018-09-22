@@ -22,7 +22,6 @@ class StanceDuel(StanceStrategy):
         else:
             self.start_counter += 1
 
-
         self.opp_last_stance = self.opp.stance
         self.me_last_stance = self.me.stance
         return STANCES[random.randint(0, 2)]
