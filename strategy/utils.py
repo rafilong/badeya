@@ -97,6 +97,35 @@ def get_time_to_kill(game, stats, monster):
     fighting_stat = get_stat_for_stance(stats, get_winning_stance(monster.stance))
     return math.ceil(hp / fighting_stat)
 
+# How much damage the player will take while killing a monster
+def damage_to_kill(stats, monster):
+    damage_taken = 0
+    turns_to_kill = get_time_to_kill(monster, self.me)
+    damage_taken += monster.attack * turns_to_kill
+
+    return damage_taken
+
+# Damage the player will take moving along the given path
+def path_damage(game, stats, path):
+    damage_taken = 0;
+    for i in range(len(path)):
+        monster = game.get_monster(node[i])
+
+        # check if enemy respawns by the time i get there
+        if monster.respawn_counter <  (7 - stats.speed) * (i+1):
+            damage_taken += damage_to_kill(monster)
+
+    return damage_taken
+
+# Whether or not we can steal a nearby kill
+def can_steal(game, stats, opp):
+    if game.shortest_paths(stats.location, opp.location)[0] == 1:
+        monster = self.game.get_monster(opp.location)
+
+        if get_time_to_kill(monster, opp) > (7 - self.speed):
+            return True
+
+
 # Gives the winning stance given another one
 def get_winning_stance(stance):
     if stance == 'Rock':
