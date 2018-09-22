@@ -69,9 +69,19 @@ class StanceDynamic(StanceStrategy):
         return STANCES[scores.index(max(scores))]
     """
 
+    # Whether the opponent can be hit next turn
+    def can_attack(self):
+        return self.next_location() == self.opp.location
+
     def select_stance(self):
         if self.me.location == self.opp.location:
             self.update_response()
             self.duels += 1
 
-        return self.best_stance()
+        if can_attack():
+            return self.best_stance()
+        else:
+            if self.game.has_monster(self.next_location()):
+                return get_winning_stance(self.game.get_monster(self.next_location()).stance)
+            else:
+                return STANCES[0]
