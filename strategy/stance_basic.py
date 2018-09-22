@@ -8,4 +8,4 @@ class StanceBasic(StanceStrategy):
         if self.game.has_monster(self.next_location):
             return self.get_winning_stance(self.game.get_monster(self.next_location))
         else:
-            return self.stance
+            return StanceStrategy.STANCES[random.randint(0, 2)]
