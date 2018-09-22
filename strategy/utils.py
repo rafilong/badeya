@@ -5,9 +5,9 @@ STANCES = ["Rock", "Paper", "Scissors"]
 def stance_num(stance):
     if stance == "Rock":
         return 0
-    elif stance == "Scissors":
-        return 1
     elif stance == "Paper":
+        return 1
+    elif stance == "Scissors":
         return 2
     else:
         return -1
