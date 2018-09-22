@@ -7,9 +7,7 @@ import json
 import random
 
 first_line = True # DO NOT REMOVE
-
-move_strategy = None;
-stance_strategy = None;
+init = True
 
 # global variables or other functions can go here
 STANCES = ["Rock", "Paper", "Scissors"]
@@ -33,6 +31,11 @@ for line in fileinput.input():
 # DO NOT CHANGE ABOVE ---------------------------
 
     # code in this block will be executed each turn of the game
+
+    if init:
+        move_strategy = MoveStrategy(game)
+        stance_strategy = StanceStrategy(game)
+        init = False
 
     destination = move_strategy.whichMove()
     stance = stance_strategy.whichStance()
