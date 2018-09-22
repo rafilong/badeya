@@ -10,7 +10,7 @@ def response_type(opp, me):
 """ Returns a stance to counter the player """
 class StanceCombo(StanceStrategy):
     DECAY = 0.8
-    THRESHOLD = 0
+    THRESHOLD = 0.15
 
     def update_data(self):
         self.update_response()
@@ -61,6 +61,9 @@ class StanceCombo(StanceStrategy):
     def combo_stance(self):
         scores = self.score_stances()
         var = sum((max(scores) - x) ** 2 for x in scores) / len(scores)
+
+        self.game.log(str(scores))
+        self.game.log(str(var))
 
         if var < self.THRESHOLD:
             return self.memo_stance()
