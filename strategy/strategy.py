@@ -10,17 +10,21 @@ class Strategy(ABC):
         self.game = game
         self.me = game.get_self()
         self.opp = game.get_opponent()
+        self.me.name = "Good Bot"
 
         # Initialize with dummy values
         self.last_time = 100
         self.last_dest = self.me.location
         self.last_location = self.me.location
+        self.last_stance = self.me.stance
         self.delay = 0
 
     def update(self):
         self.last_time = self.me.movement_counter
         self.last_dest = self.me.destination
         self.last_location = self.me.location
+        self.last_stance = self.me.stance
+        
         if self.me.location == self.me.destination and self.delay == 0:
             self.delay = 7 - self.me.speed
         self.delay -= 1
