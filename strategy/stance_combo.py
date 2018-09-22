@@ -62,9 +62,6 @@ class StanceCombo(StanceStrategy):
         scores = self.score_stances()
         var = sum((max(scores) - x) ** 2 for x in scores) / len(scores)
 
-        self.game.log(str(scores))
-        self.game.log(str(var))
-
         if var < self.THRESHOLD:
             return self.memo_stance()
         else:
