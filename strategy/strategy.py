@@ -15,12 +15,14 @@ class Strategy(ABC):
         self.last_time = 100
         self.last_dest = self.me.location
         self.last_location = self.me.location
+        self.last_stance = self.me.stance
         self.delay = 0
 
     def update(self):
         self.last_time = self.me.movement_counter
         self.last_dest = self.me.destination
         self.last_location = self.me.location
+        self.last_stance = self.me.stance
         self.delay -= 1
         if self.me.location == self.me.destination and self.delay == 0:
             self.delay = 7 - self.me.speed
