@@ -2,7 +2,7 @@ from strategy.strategy import *
 import random
 
 """ Returns a stance to counter the monster """
-class StanceDuel2(StanceStrategy):
+class StanceDuel(StanceStrategy):
 
     memory = {}
     start_counter = 0;
@@ -26,4 +26,3 @@ class StanceDuel2(StanceStrategy):
         self.opp_last_stance = self.opp.stance
         self.me_last_stance = self.me.stance
         return STANCES[random.randint(0, 2)]
-
