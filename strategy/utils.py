@@ -2,7 +2,7 @@ import math
 
 STANCES = ["Rock", "Paper", "Scissors"]
 
-def stance_num(=stance):
+def stance_num(stance):
     if stance == "Rock":
         return 0
     elif stance == "Scissors":
