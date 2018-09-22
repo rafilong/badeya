@@ -26,6 +26,10 @@ class Strategy(ABC):
             return self.me.location
 
 class MoveStrategy(Strategy):
+    """How much damage the player will take while killing a monster."""
+    def damage_to_kill(self, monster):
+        return 0
+
     """Damage the player will take moving along the given path."""
     def path_damage(self, path):
         return 0
