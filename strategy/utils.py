@@ -2,6 +2,8 @@ import math
 
 STANCES = ["Rock", "Paper", "Scissors"]
 
+""" Stats information for finding best walks """
+
 class Stats:
     def __init__(self, speed, rock, paper, scissors, health):
         self.speed = speed
