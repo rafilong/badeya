@@ -1,5 +1,5 @@
 from strategy.strategy import *
-import random
+import random, math
 
 def rotate(l, n):
     return l[n:] + l[:n]
@@ -26,7 +26,7 @@ class StanceDynamic(StanceStrategy):
         probs = rotate(probs, -stance_num(self.me.stance))
         return probs
 
-    def best_stance(self):
+    def score_stances(self):
         probs = self.probs_stance()
         scores = [0, 0, 0]
 
@@ -40,7 +40,34 @@ class StanceDynamic(StanceStrategy):
 
             scores[s] = probs[g] * get_stat_for_stance(self.me, STANCES[s]) - probs[b] * get_stat_for_stance(self.opp, STANCES[b])
 
+        return scores
+
+    def best_stance(self):
+        scores = self.score_stances()
         return STANCES[scores.index(max(scores))]
+
+    """ Doesn't work lul
+    def weighted_stance(self):
+        scores = self.score_stances()
+        self.game.log("raw " + str(scores))
+
+        scores = [x * x * x for x in scores]
+        scores_sum = math.fabs(sum(scores))
+        if scores_sum != 0:
+            scores = [x / scores_sum for x in scores]
+
+            self.game.log("wgt " + str(scores))
+
+            rand = random.random()
+            for i in range(len(scores)):
+                rand -= scores[i]
+                if rand <= 0:
+                    return STANCES[i]
+
+            self.game.log("fuck")
+
+        return STANCES[scores.index(max(scores))]
+    """
 
     def select_stance(self):
         if self.me.location == self.opp.location:
