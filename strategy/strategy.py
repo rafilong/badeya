@@ -9,7 +9,7 @@ class Strategy(ABC):
     def __init__(self, game):
         self.game = game
         self.me = game.get_self()
-        self.op = game.get_opponent()
+        self.opp = game.get_opponent()
 
     def update(self):
         pass
@@ -27,51 +27,6 @@ class Strategy(ABC):
             return self.me.location
 
 class MoveStrategy(Strategy):
-    """How much damage the player will take while killing a monster."""
-    def damage_to_kill(self, monster):
-        damage_taken = 0
-        turns_to_kill = self.turns_to_kill(monster, self.me)
-        damage_taken += monster.attack * turns_to_kill
-
-        return damage_taken
-
-    """Damage the player will take moving along the given path."""
-    # Hassan
-    def path_damage(self, path):
-        damage_taken = 0;
-        for i in range(len(path)):
-            monster = self.game.get_monster(node[i])
-
-            # check if enemy respawns by the time i get there
-            if monster.respawn_counter <  (7 - self.me.speed) * (i+1):
-                damage_taken += damage_to_kill(monster)
-
-        return damage_taken
-
-    """ Whether or not we can steal a nearby kill"""
-    def can_steal(self):
-        if self.game.shortest_paths(self.me.location, self.op.location)[0] == 1:
-            monster = self.game.get_monster(self.op.location)
-
-            if self.turns_to_kill(monster, self.op) > (7 - self.speed):
-                return True
-
-
-    """ How many turns does it take for an entity to kill the given monster"""
-    def turns_to_kill(self, monster, entity):
-        win_stance_str = get_winning_stance(monster.stance)
-        if win_stance_str == "Rock":
-            win_stance = entity.paper
-        elif win_stance_str == "Paper":
-            win_stance = entity.scissors
-        else:
-            win_stance = entity.rock
-
-        if monster.health // win_stance
-
-    """Whether the current node has a living monster."""
-    def has_alive_monster(self):
-        return self.game.has_monster(self.me.location) and not self.game.get_monster(self.me.location).dead
 
     """Whether the player is in the state of moving."""
     def moving(self):
