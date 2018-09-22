@@ -5,8 +5,8 @@ import json
 
 # your import statements here
 import random
-import strategy/move/MoveBasic
-import strategy/stance/StanceBasic
+from strategy.MoveBasic import MoveBasic
+from strategy.StanceBasic import StanceBasic
 
 first_line = True # DO NOT REMOVE
 init = True
@@ -43,4 +43,4 @@ for line in fileinput.input():
     stance = stance_strategy.whichStance()
 
     # submit your decision for the turn (This function should be called exactly once per turn)
-    game.submit_decision(destination_node, chosen_stance)
+    game.submit_decision(destination, stance)

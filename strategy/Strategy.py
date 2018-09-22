@@ -1,8 +1,19 @@
+from abc import ABC, abstractmethod
 
-class Strategy():
-    me = None
-    game = None
+class Strategy(ABC):
 
     def __init__(self, game):
         self.game = game
-        me = game.get_self()
+
+class MoveStrategy(Strategy):
+
+    @abstractmethod
+    def whichMove(self):
+        pass
+
+class StanceStrategy(Strategy):
+    STANCES = ["Rock", "Paper", "Scissors"]
+
+    @abstractmethod
+    def whichStance(self):
+        pass
