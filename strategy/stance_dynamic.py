@@ -10,22 +10,25 @@ def response_type(opp, me):
 """ Returns a stance to counter the player """
 class StanceDynamic(StanceStrategy):
     DECAY = 1
-    response = {.001, .001, .001}
+
+    # 0 is for same as prev, 1 is for counters prev, 2 is for prev counters
+    response = [.001, .001, .001]
     duels = .003
 
     def update_response(self):
-        response_type = response_type(self.opp.stance, self.last_stance)
+        type = response_type(self.opp.stance, self.last_stance)
         self.response = [x * self.DECAY for x in self.response]
-        self.response[response_type] += 1
+        self.response[type] += 1
+        self.duels *= self.DECAY
 
     def probs_stance(self):
-        probs = [x / duels for x in self.response]
+        probs = [x / self.duels for x in self.response]
         probs = rotate(probs, -stance_num(self.last_stance))
         return probs
 
     def best_stance(self):
         probs = self.probs_stance()
-        scores = {0, 0, 0}
+        scores = [0, 0, 0]
 
         for s in range(len(STANCES)):
             stance = STANCES[s]
@@ -43,6 +46,6 @@ class StanceDynamic(StanceStrategy):
         # Update bookkeeper
         if self.me.location == self.opp.location:
             self.update_response()
-            duels++
+            self.duels += 1
 
         return self.best_stance()
