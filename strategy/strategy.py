@@ -11,6 +11,10 @@ class Strategy(ABC):
         self.me = game.get_self()
         self.opp = game.get_opponent()
 
+        # Initialize with dummy values
+        self.last_time = 100
+        self.last_dest = self.me.location
+
     def update(self):
         self.last_time = self.me.movement_counter
         self.last_dest = self.me.destination
@@ -33,7 +37,7 @@ class Strategy(ABC):
 
     # Whether the player is currently moving to a new location
     def is_moving(self):
-        return self.me.destination != self.me.location\
+        return self.me.destination != self.me.location
 
     # Whether the play just moved last turn
     def just_moved(self):
