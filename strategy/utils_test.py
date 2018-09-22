@@ -13,6 +13,9 @@ class MockGame:
     def __init__(self, nodes, adjacent_nodes, monsters):
         self.player = MockPlayer()
         self.monsters = monsters
+        self.monster_list = []
+        for key in monsters:
+            self.monster_list.append(monsters[key])
         self.nodes = nodes
         self.adjacent_nodes = adjacent_nodes
 
@@ -31,7 +34,10 @@ class MockGame:
         return False
 
     def get_monster(self, location):
-        return self.monsters[location];
+        return self.monsters[location]
+
+    def get_all_monsters(self):
+        return self.monster_list
 
 class MockPlayer:
     def __init__(self):
@@ -43,13 +49,15 @@ class MockPlayer:
         self.health = 100
 
 class MockEnemy:
-    def __init__(self, health, attack, stance, death_effects):
+    def __init__(self, health, attack, stance, death_effects, location, speed):
         self.health = health
         self.attack = attack
         self.stance = stance
         self.death_effects = death_effects
         self.dead = False
         self.respawn_counter = 0
+        self.location = location
+        self.speed = speed
 
 j = {}
 with open('./Map.json', 'r') as f:
@@ -70,7 +78,7 @@ monsters = {}
 for m in j['Monsters']:
     md = m['Death Effects'];
     death_effects = MockDeathEffects(md['Speed'], md['Rock'], md['Paper'], md['Scissors'], md['Health'])
-    monsters[m['Location']] = (MockEnemy(m['Health'], m['Attack'], m['Stance'], death_effects))
+    monsters[m['Location']] = (MockEnemy(m['Health'], m['Attack'], m['Stance'], death_effects, m['Location'], m['Speed']))
 
 game = MockGame(nodes, adjacent_nodes, monsters)
 

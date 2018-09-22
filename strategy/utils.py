@@ -40,15 +40,22 @@ class TravelInfo:
     def __str__(self):
         return 'Time: ' + str(self.duration) + '\nSpeed: ' + str(self.stats.speed) + '\nRock: ' + str(self.stats.rock) + '\nPaper: ' + str(self.stats.paper) + '\nScissors: ' + str(self.stats.scissors) + '\nHP: ' + str(self.stats.health)
 
+def get_respawn_status(game):
+    resp_status = {}
+    for monster in game.get_all_monsters():
+        resp_status[monster.location] = monster.respawn_counter
+    return resp_status
+
 # Gets the player's estimated stats after following a given path
 def get_travel_stats(game, current_location, path, must_kill = False):
     me = game.get_self()
     stats = get_current_stats(game, me)
-    (t, st) = ttl_helper(game, stats, current_location, path, 0, 0, must_kill)
+    resp_status = get_respawn_status(game)
+    (t, st) = ttl_helper(game, stats, resp_status, current_location, path, 0, 0, must_kill)
     return TravelInfo(t, st)
 
 # See above
-def ttl_helper(game, stats, current_location, path, idx, time_in_future, must_kill):
+def ttl_helper(game, stats, resp_status, current_location, path, idx, time_in_future, must_kill):
     if idx == len(path):
         return (0, stats)
 
@@ -56,7 +63,7 @@ def ttl_helper(game, stats, current_location, path, idx, time_in_future, must_ki
     time_for_this_loc = (7 - stats.speed)
 
     # If we're fighting, we do more calculations
-    if will_monster_be_alive(game, current_location, time_in_future):
+    if will_monster_be_alive(game, resp_status, current_location, time_in_future):
         monster = game.get_monster(current_location)
         time_to_kill = get_time_to_kill(game, stats, monster)
         if must_kill:
@@ -70,21 +77,19 @@ def ttl_helper(game, stats, current_location, path, idx, time_in_future, must_ki
             # If we improve speed stat, and we killed monster fast enough, we
             # get to leave earlier
             time_for_this_loc = max(time_to_kill, 7 - stats.speed)
+            resp_status[current_location] = 7 - monster.speed + time_in_future
 
     next_location = path[idx]
 
-    (time, end_stats) = ttl_helper(game, stats, next_location, path, idx + 1, time_in_future + time_for_this_loc, must_kill)
+    (time, end_stats) = ttl_helper(game, stats, resp_status, next_location, path, idx + 1, time_in_future + time_for_this_loc, must_kill)
     return (time_for_this_loc + time, end_stats)
 
 
 # Guesses whether a monster will be alive, a given number of turns from now
-def will_monster_be_alive(game, location, time_from_now):
+def will_monster_be_alive(game, resp_status, location, time_from_now):
     if not game.has_monster(location):
         return False
-    monster = game.get_monster(location)
-    if not monster.dead:
-        return True
-    return time_from_now >= monster.respawn_counter
+    return time_from_now >= resp_status[location]
 
 # Determines the time-to-kill the current monster, assuming winning stance
 def get_time_to_kill(game, stats, monster):
