@@ -1,7 +1,7 @@
-from strategy.move_basic import MoveBasic
-from strategy.stance_basic import StanceBasic
+from strategy.move_basic import MoveRandom
+from strategy.stance_basic import StanceRandom
 
 STRATEGY = {
-    "move": MoveBasic,
-    "stance": StanceBasic
+    "move": MoveRandom,
+    "stance": StanceRandom
 }

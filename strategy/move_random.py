@@ -1,7 +1,7 @@
 from strategy.strategy import MoveStrategy
 import random
 
-class MoveBasic(MoveStrategy):
+class MoveRandom(MoveStrategy):
 
     def select_move(self):
         if (self.game.get_self().location == self.game.get_self().destination):
