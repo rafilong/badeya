@@ -6,6 +6,7 @@ class MoveHassan(MoveStrategy):
     first_turn = True
     last_node = 10
     def select_move(self):
+        queue = []
 
         if self.game.turn_number == 295:
             self.game.log(str(self.me.rock) + "  " + str(self.me.scissors) + "  " + str(self.me.paper) + "   " + str(self.me.speed) + "   " + str(self.me.health))
@@ -18,20 +19,25 @@ class MoveHassan(MoveStrategy):
             return 1
 
         else:
-            if self.me.location == 0:
+            while len(queue) < 15:
                 options = [1, 6, 10]
                 random.shuffle(options)
-                if self.last_node != 0:
-                    options.remove(self.last_node)
+                queue += options
 
+            if self.me.location == 0:
                 if self.game.get_monster(0).respawn_counter <= 12:
                     return 0
-                elif not self.game.get_monster(options[0]).dead:
-                    self.last_node = options[0]
-                    return options[0]
-                else:
-                    self.last_node = options[1]
-                    return options[1]
+
+                for i in range(6):
+                    if not self.game.get_monster(queue[i]).dead:
+                        self.last_node = queue[i]
+                        temp = queue[i]
+                        queue = queue[i:]
+                        return temp
+
+                temp = queue[0]
+                queue = queue[0:]
+                return temp
             elif self.me.location == 1 and self.me.scissors >= 4 and not self.game.get_monster(3).dead:
                     return 3
             elif self.me.location == 3:
