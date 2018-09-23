@@ -6,5 +6,6 @@ class StanceTest(StanceStrategy):
 
     def select_stance(self):
         if self.game.get_turn_num() > 1:
-            get_winning_stance(self.opp.stance)
-        # return STANCES[0]
+            return get_winning_stance(self.opp.stance)
+        else:
+            return STANCES[0]
