@@ -5,5 +5,6 @@ import random
 class StanceTest(StanceStrategy):
 
     def select_stance(self):
-        # return get_winning_stance(self.game.get_monster(self.next_location()).stance)
-        return STANCES[0]
+        if self.game.get_turn_num() > 1:
+            get_winning_stance(self.opp.stance)
+        # return STANCES[0]
