@@ -3,20 +3,20 @@ import random, math
 
 """ Returns a stance to counter the player """
 class StanceProb(StanceStrategy):
-    DECAY = 0.8
+    DECAY = 1
 
     # 0 is for same as prev, 1 is for counters prev, 2 is for prev counters
     response = [[0.001, 0.001, 0.001], [0.001, 0.001, 0.001], [0.001, 0.001, 0.001]]
-    duels = .009
+    duels = [0.003, 0.003, 0.003]
 
     def update_response(self):
-        self.response = [[x * self.DECAY for x in y] for y in self.response]
+        self.response[stance_num(self.last_stance)] = [x * self.DECAY for x in self.response[stance_num(self.last_stance)]]
         self.response[stance_num(self.last_stance)][stance_num(self.opp.stance)] += 1
-        self.duels *= self.DECAY
-        self.duels += 1
+        self.duels[stance_num(self.last_stance)] *= self.DECAY
+        self.duels[stance_num(self.last_stance)] += 1
 
     def probs_stance(self):
-        probs = [[x / self.duels for x in y] for y in self.response]
+        probs = [[x / self.duels[i] for x in self.response[i]] for i in range(len(self.response))]
         return probs
 
     def score_stances(self):
